@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -16,10 +17,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-public class BasicRecipeControllerIT {
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(BasicRecipeController.class)
+class BasicRecipeControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -28,7 +28,7 @@ public class BasicRecipeControllerIT {
     BasicRecipeController basicRecipeController;
 
     @Test
-    public void shouldReturnHelloWorld() throws Exception {
+    void shouldReturnHelloWorld() throws Exception {
         this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Hello World")));
     }
