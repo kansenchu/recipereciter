@@ -10,6 +10,6 @@ class BasicRecipeControllerTest {
 
     @Test
     void helloWorldCheck() {
-        assertEquals("", basicRecipeController.helloWorld());
+        assertEquals("Hello World", basicRecipeController.helloWorld());
     }
 }
