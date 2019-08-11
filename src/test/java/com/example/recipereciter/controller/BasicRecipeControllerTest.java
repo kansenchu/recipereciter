@@ -1,14 +1,12 @@
 package com.example.recipereciter.controller;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BasicRecipeControllerTest {
 
-    @Autowired
-    private BasicRecipeController basicRecipeController;
+    private BasicRecipeController basicRecipeController = new BasicRecipeController();
 
     @Test
     void helloWorldCheck() {
