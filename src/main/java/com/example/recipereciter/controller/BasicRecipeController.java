@@ -2,6 +2,7 @@ package com.example.recipereciter.controller;
 
 import com.example.recipereciter.controller.response.AllRecipesResponse;
 import com.example.recipereciter.dto.Recipe;
+import com.example.recipereciter.service.RecipeService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,12 @@ import java.util.List;
 @RestController
 public class BasicRecipeController implements RecipeController {
 
+    private RecipeService recipeService;
+
+    BasicRecipeController(RecipeService service) {
+        recipeService = service;
+    }
+
     @Override
     @GetMapping
     public String helloWorld() {
@@ -24,15 +31,6 @@ public class BasicRecipeController implements RecipeController {
     @Override
     @GetMapping("/recipes")
     public AllRecipesResponse getAllRecipes() {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            String allRecipesString = new String(Files.readAllBytes(
-                    Paths.get("src/test/resources/inputs/").resolve("allRecipes.json")));
-            List<Recipe> recipeList = objectMapper.readValue(allRecipesString, new TypeReference<List<Recipe>>(){});
-            return new AllRecipesResponse(recipeList);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return new AllRecipesResponse(recipeService.getAllRecipes());
     }
 }
