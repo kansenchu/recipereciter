@@ -40,13 +40,15 @@ class BasicRecipeControllerIT {
 
     @Test
     void shouldReturnAllRecipes() throws Exception {
-        //setup mock
+        // arrange
+        // TODO: move to utils
         ObjectMapper objectMapper = new ObjectMapper();
         String allRecipesString = new String(Files.readAllBytes(
                 Paths.get("src/test/resources/inputs/").resolve("allRecipes.json")));
         List<Recipe> recipeList = objectMapper.readValue(allRecipesString, new TypeReference<List<Recipe>>(){});
         when(recipeService.getAllRecipes()).thenReturn(recipeList);
 
+        // act -> assert
         String expected = getOutputFile("AllRecipesResponse");
         mockMvc.perform(get("/recipes")).andExpect(status().isOk())
                 .andExpect(content().json(expected));
