@@ -24,8 +24,8 @@ class BasicRecipeControllerIT {
     BasicRecipeController basicRecipeController;
 
     @Test
-    void shouldReturnHelloWorld() throws Exception {
-        this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
+    void shouldReturnAllRecipes() throws Exception {
+        mockMvc.perform(get("/recipes")).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Hello World")));
     }
 }
