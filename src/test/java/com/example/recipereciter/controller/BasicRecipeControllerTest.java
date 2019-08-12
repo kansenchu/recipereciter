@@ -30,11 +30,6 @@ class BasicRecipeControllerTest {
     private BasicRecipeController basicRecipeController;
 
     @Test
-    void helloWorldCheck() {
-        assertEquals("Hello World", basicRecipeController.helloWorld());
-    }
-
-    @Test
     void getAllRecipes() throws Exception {
         // arrange
         // TODO: move to utils
