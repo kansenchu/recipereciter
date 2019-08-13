@@ -3,16 +3,13 @@ package com.example.recipereciter.controller.response;
 import java.util.List;
 
 import com.example.recipereciter.dto.Recipe;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * 全レシピ返す用POJOクラス.
  */
-
-@Data
-@NoArgsConstructor
+@Value
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class AllRecipesResponse {
     List<Recipe> recipes;
