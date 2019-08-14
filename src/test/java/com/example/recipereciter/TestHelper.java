@@ -25,7 +25,7 @@ public class TestHelper {
 
     private static Map<String, Object> mockObjectCache = new HashMap<>(30);
 
-    public static String getOutputFile(String filename) throws IOException {
+    private static String getOutputFile(String filename) throws IOException {
         return new String(Files.readAllBytes(Paths.get("src/test/resources/outputs/").resolve(filename + ".json")));
     }
 
@@ -33,7 +33,7 @@ public class TestHelper {
         return new String(Files.readAllBytes(Paths.get("src/test/resources/inputs/").resolve(filename + ".json")));
     }
 
-    private static String getFile(String filename) throws IOException {
+    public static String getFile(String filename) throws IOException {
         return filename.contains("Response") ? getOutputFile(filename) : getInputFile(filename);
     }
 
@@ -44,7 +44,7 @@ public class TestHelper {
     }
 
     public static AllRecipesResponse mockAllRecipesResponse() {
-        return retrieveFromCache("AllRecipesResponse",
+        return retrieveFromCache("allRecipesResponse",
                 objectMapper.getTypeFactory().constructType(AllRecipesResponse.class));
     }
 

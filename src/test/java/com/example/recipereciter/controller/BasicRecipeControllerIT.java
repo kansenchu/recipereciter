@@ -1,5 +1,6 @@
 package com.example.recipereciter.controller;
 
+import com.example.recipereciter.dto.Recipe;
 import com.example.recipereciter.service.RecipeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,8 +11,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.example.recipereciter.TestHelper.mockRecipeList;
-import static com.example.recipereciter.TestHelper.getOutputFile;
+import static com.example.recipereciter.TestHelper.*;
+import static com.example.recipereciter.TestHelper.mockFirstRecipe;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -36,8 +38,20 @@ class BasicRecipeControllerIT {
         when(recipeService.getAllRecipes()).thenReturn(mockRecipeList());
 
         // act -> assert
-        String expected = getOutputFile("AllRecipesResponse");
+        String expected = getFile("allRecipesResponse");
         mockMvc.perform(get("/recipes")).andExpect(status().isOk())
                 .andExpect(content().json(expected));
+    }
+
+    @Test
+    void shouldReturnOneRecipe() throws Exception {
+        // arrange
+        when(recipeService.getRecipe(any(Integer.class))).thenReturn(mockFirstRecipe());
+
+        // act -> assert
+        String expected = getFile("getFirstRecipeResponse");
+        mockMvc.perform(get("/recipes/1"))
+                .andExpect(content().json(expected))
+                .andExpect(status().isOk());
     }
 }
