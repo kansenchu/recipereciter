@@ -17,7 +17,7 @@ import lombok.*;
 @Value
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Recipe {
 
     /** レシピの識別する番号 */

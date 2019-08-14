@@ -3,21 +3,15 @@ package com.example.recipereciter.controller;
 import com.example.recipereciter.controller.response.AllRecipesResponse;
 import com.example.recipereciter.dto.Recipe;
 import com.example.recipereciter.service.RecipeService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-
-import static com.example.recipereciter.TestHelper.getOutputFile;
+import static com.example.recipereciter.TestHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,20 +24,26 @@ class BasicRecipeControllerTest {
     private BasicRecipeController basicRecipeController;
 
     @Test
-    void getAllRecipes() throws Exception {
+    void getAllRecipes() {
         // arrange
-        // TODO: move to utils
-        ObjectMapper objectMapper = new ObjectMapper();
-        String allRecipesString = new String(Files.readAllBytes(
-                Paths.get("src/test/resources/inputs/").resolve("allRecipes.json")));
-        List<Recipe> recipeList = objectMapper.readValue(allRecipesString, new TypeReference<List<Recipe>>(){});
-        when(recipeService.getAllRecipes()).thenReturn(recipeList);
-
-        AllRecipesResponse expected = objectMapper.readValue(
-                getOutputFile("AllRecipesResponse"), AllRecipesResponse.class);
+        when(recipeService.getAllRecipes()).thenReturn(mockRecipeList());
+        AllRecipesResponse expected = mockAllRecipesResponse();
 
         // act
         AllRecipesResponse actual = basicRecipeController.getAllRecipes();
+
+        // assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void getOneRecipe() {
+        // arrange
+        when(recipeService.getRecipe(any(Integer.class))).thenReturn(mockFirstRecipe());
+        Recipe expected = mockFirstRecipe();
+
+        // act
+        Recipe actual = basicRecipeController.getRecipe(1);
 
         // assert
         assertEquals(expected, actual);
