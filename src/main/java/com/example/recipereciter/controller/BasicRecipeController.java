@@ -31,6 +31,6 @@ public class BasicRecipeController implements RecipeController {
 
     @Override
     public Recipe getRecipe(int i) {
-        return null;
+        return recipeService.getRecipe(i);
     }
 }
