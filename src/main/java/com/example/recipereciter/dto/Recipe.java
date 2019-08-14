@@ -18,9 +18,11 @@ import lombok.*;
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonView(RecipeViews.WithoutId.class)
 public class Recipe {
 
     /** レシピの識別する番号 */
+    @JsonView(RecipeViews.WithId.class)
     int id;
 
     /** レシピの名前 */

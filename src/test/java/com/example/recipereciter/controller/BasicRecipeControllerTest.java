@@ -1,6 +1,7 @@
 package com.example.recipereciter.controller;
 
 import com.example.recipereciter.controller.response.AllRecipesResponse;
+import com.example.recipereciter.controller.response.RecipeResponse;
 import com.example.recipereciter.dto.Recipe;
 import com.example.recipereciter.service.RecipeService;
 import org.junit.jupiter.api.Test;
@@ -40,10 +41,10 @@ class BasicRecipeControllerTest {
     void getOneRecipe() {
         // arrange
         when(recipeService.getRecipe(any(Integer.class))).thenReturn(mockFirstRecipe());
-        Recipe expected = mockFirstRecipe();
+        RecipeResponse expected = new RecipeResponse(RecipeResponse.Message.READ, mockFirstRecipe());
 
         // act
-        Recipe actual = basicRecipeController.getRecipe(1);
+        RecipeResponse actual = basicRecipeController.getRecipe(1);
 
         // assert
         assertEquals(expected, actual);

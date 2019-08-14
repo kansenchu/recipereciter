@@ -1,7 +1,7 @@
 package com.example.recipereciter.controller;
 
 import com.example.recipereciter.controller.response.AllRecipesResponse;
-import com.example.recipereciter.dto.Recipe;
+import com.example.recipereciter.controller.response.RecipeResponse;
 
 /**
  * レシピのコントローラーの契約を示すインタフェース。
@@ -14,5 +14,5 @@ public interface RecipeController {
      */
     AllRecipesResponse getAllRecipes();
 
-    Recipe getRecipe(int i);
+    RecipeResponse getRecipe(int i);
 }

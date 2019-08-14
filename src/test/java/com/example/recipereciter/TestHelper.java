@@ -19,10 +19,6 @@ public class TestHelper {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    static {
-        objectMapper.configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-    }
-
     private static Map<String, Object> mockObjectCache = new HashMap<>(30);
 
     private static String getOutputFile(String filename) throws IOException {

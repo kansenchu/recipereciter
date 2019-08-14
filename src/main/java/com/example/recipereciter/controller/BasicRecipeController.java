@@ -1,7 +1,7 @@
 package com.example.recipereciter.controller;
 
 import com.example.recipereciter.controller.response.AllRecipesResponse;
-import com.example.recipereciter.dto.Recipe;
+import com.example.recipereciter.controller.response.RecipeResponse;
 import com.example.recipereciter.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +32,7 @@ public class BasicRecipeController implements RecipeController {
 
     @Override
     @GetMapping("/recipes/{id}")
-    public Recipe getRecipe(@PathVariable int id) {
-        return recipeService.getRecipe(id);
+    public RecipeResponse getRecipe(@PathVariable int id) {
+        return new RecipeResponse(RecipeResponse.Message.READ, recipeService.getRecipe(id));
     }
 }
