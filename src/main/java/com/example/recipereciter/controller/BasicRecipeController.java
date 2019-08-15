@@ -5,9 +5,7 @@ import com.example.recipereciter.controller.response.RecipeResponse;
 import com.example.recipereciter.dto.Recipe;
 import com.example.recipereciter.service.RecipeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 最低限のRESTのレシピのコントローラーを表現する。
@@ -44,7 +42,8 @@ public class BasicRecipeController implements RecipeController {
      * @{inheritDoc}
      */
     @Override
-    public RecipeResponse addRecipe(Recipe newRecipe) {
+    @PostMapping("/recipes")
+    public RecipeResponse addRecipe(@RequestBody Recipe newRecipe) {
         return new RecipeResponse(RecipeResponse.Message.CREATED, recipeService.addRecipe(newRecipe));
     }
 }
