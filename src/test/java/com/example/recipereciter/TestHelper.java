@@ -1,8 +1,8 @@
 package com.example.recipereciter;
 
 import com.example.recipereciter.controller.response.AllRecipesResponse;
+import com.example.recipereciter.controller.response.RecipeResponse;
 import com.example.recipereciter.dto.Recipe;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,8 +44,22 @@ public class TestHelper {
                 objectMapper.getTypeFactory().constructType(AllRecipesResponse.class));
     }
 
+    public static RecipeResponse mockGetFirstRecipeResponse() {
+        return retrieveFromCache("getFirstRecipeResponse",
+                objectMapper.getTypeFactory().constructType(RecipeResponse.class));
+    }
+
+    public static RecipeResponse mockAddNewRecipeResponse() {
+        return retrieveFromCache("addNewRecipeResponse",
+                objectMapper.getTypeFactory().constructType(RecipeResponse.class));
+    }
+
     public static Recipe mockFirstRecipe() {
         return retrieveFromCache("firstRecipe", objectMapper.getTypeFactory().constructType(Recipe.class));
+    }
+
+    public static Recipe mockNewRecipe() {
+        return retrieveFromCache("newRecipe", objectMapper.getTypeFactory().constructType(Recipe.class));
     }
 
     private static <T> T retrieveFromCache(String filename, JavaType type) {

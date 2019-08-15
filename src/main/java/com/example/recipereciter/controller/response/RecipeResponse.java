@@ -5,6 +5,8 @@ import com.example.recipereciter.dto.RecipeViews;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
@@ -16,6 +18,7 @@ import java.util.List;
  * 一個のレシピを返すためのレスポンスクラス。
  */
 @Value
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 @JsonView(RecipeViews.WithoutId.class)
 public class RecipeResponse {

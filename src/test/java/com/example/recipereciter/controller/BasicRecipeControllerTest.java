@@ -49,4 +49,18 @@ class BasicRecipeControllerTest {
         // assert
         assertEquals(expected, actual);
     }
+
+    @Test
+    void addRecipe() {
+        // arrange
+        Recipe newRecipe = mockNewRecipe();
+        when(recipeService.addRecipe(any(Recipe.class))).thenReturn(newRecipe);
+        RecipeResponse expected = mockAddNewRecipeResponse();
+
+        // act
+        RecipeResponse actual = basicRecipeController.addRecipe(newRecipe);
+
+        // assert
+        assertEquals(expected, actual);
+    }
 }
