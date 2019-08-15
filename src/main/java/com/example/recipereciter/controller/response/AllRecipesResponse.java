@@ -12,5 +12,6 @@ import lombok.*;
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class AllRecipesResponse {
+    /** 全レシピを格納されているリスト。 */
     List<Recipe> recipes;
 }

@@ -31,12 +31,18 @@ public class BasicRecipeController implements RecipeController {
         return new AllRecipesResponse(recipeService.getAllRecipes());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @GetMapping("/recipes/{id}")
     public RecipeResponse getRecipe(@PathVariable int id) {
         return new RecipeResponse(RecipeResponse.Message.READ, recipeService.getRecipe(id));
     }
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public RecipeResponse addRecipe(Recipe newRecipe) {
         return new RecipeResponse(RecipeResponse.Message.CREATED, recipeService.addRecipe(newRecipe));

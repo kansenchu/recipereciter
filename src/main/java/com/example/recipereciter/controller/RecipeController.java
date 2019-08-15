@@ -15,7 +15,17 @@ public interface RecipeController {
      */
     AllRecipesResponse getAllRecipes();
 
-    RecipeResponse getRecipe(int i);
+    /**
+     * 一個のレシピを取得する。
+     * @param id 取得したいレシピの識別番号
+     * @return リクエストしたレシピ
+     */
+    RecipeResponse getRecipe(int id);
 
+    /**
+     * レシピを追加するメソッド。
+     * @param newRecipe 追加したいレシピの詳細
+     * @return 追加したレシピのデータ。特に、識別番号の追加
+     */
     RecipeResponse addRecipe(Recipe newRecipe);
 }

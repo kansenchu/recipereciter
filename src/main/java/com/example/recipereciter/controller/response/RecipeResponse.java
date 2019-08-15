@@ -45,10 +45,15 @@ public class RecipeResponse {
     /** 作業の結果を表すメッセージ。*/
     Message message;
 
-    /** 返すレシピ */
+    /** リスト化された、返すレシピ。 */
     @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
     List<Recipe> recipe;
 
+    /**
+     * 簡単に作成できるためのコンストラクタ。
+     * @param msg 返したいメッセージ
+     * @param newRecipe 返したいレシピ
+     */
     public RecipeResponse(Message msg, Recipe newRecipe) {
         this(msg, Collections.singletonList(newRecipe));
     }
