@@ -6,16 +6,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
 
 import static com.example.recipereciter.TestHelper.*;
 import static com.example.recipereciter.TestHelper.mockFirstRecipe;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,4 +58,19 @@ class BasicRecipeControllerIT {
                 .andExpect(content().json(expected))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void addNewRecipe() throws Exception {
+        // arrange
+        when(recipeService.addRecipe(any(Recipe.class))).thenReturn(mockNewRecipe());
+        String payload = mapToString(mockNewRecipe());
+
+        // act -> assert
+        String expected = getFile("addNewRecipeResponse");
+        mockMvc.perform(post("/recipes")
+                .contentType(MediaType.APPLICATION_JSON_UTF8).content(payload))
+                .andExpect(content().json(expected))
+                .andExpect(status().isOk());
+    }
+
 }

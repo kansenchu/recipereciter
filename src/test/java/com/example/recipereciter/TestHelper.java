@@ -3,6 +3,7 @@ package com.example.recipereciter;
 import com.example.recipereciter.controller.response.AllRecipesResponse;
 import com.example.recipereciter.controller.response.RecipeResponse;
 import com.example.recipereciter.dto.Recipe;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,12 +22,8 @@ public class TestHelper {
 
     private static Map<String, Object> mockObjectCache = new HashMap<>(30);
 
-    private static String getOutputFile(String filename) throws IOException {
-        return new String(Files.readAllBytes(Paths.get("src/test/resources/outputs/").resolve(filename + ".json")));
-    }
-
-    private static String getInputFile(String filename) throws IOException {
-        return new String(Files.readAllBytes(Paths.get("src/test/resources/inputs/").resolve(filename + ".json")));
+    public static String mapToString(Object obj) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(obj);
     }
 
     public static String getFile(String filename) throws IOException {
@@ -60,6 +57,14 @@ public class TestHelper {
 
     public static Recipe mockNewRecipe() {
         return retrieveFromCache("newRecipe", objectMapper.getTypeFactory().constructType(Recipe.class));
+    }
+
+    private static String getOutputFile(String filename) throws IOException {
+        return new String(Files.readAllBytes(Paths.get("src/test/resources/outputs/").resolve(filename + ".json")));
+    }
+
+    private static String getInputFile(String filename) throws IOException {
+        return new String(Files.readAllBytes(Paths.get("src/test/resources/inputs/").resolve(filename + ".json")));
     }
 
     private static <T> T retrieveFromCache(String filename, JavaType type) {
