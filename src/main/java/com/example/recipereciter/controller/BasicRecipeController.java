@@ -39,6 +39,6 @@ public class BasicRecipeController implements RecipeController {
 
     @Override
     public RecipeResponse addRecipe(Recipe newRecipe) {
-        return null;
+        return new RecipeResponse(RecipeResponse.Message.CREATED, recipeService.addRecipe(newRecipe));
     }
 }

@@ -27,7 +27,8 @@ public class RecipeResponse {
      * 各種の返せるメッセージを表現するEnum。
      */
     public enum Message {
-        READ("Recipe details by id");
+        READ("Recipe details by id"),
+        CREATED("Recipe successfully created!");
 
         private String message;
 
