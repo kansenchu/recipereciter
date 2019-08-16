@@ -3,6 +3,7 @@ package com.example.recipereciter;
 import com.example.recipereciter.controller.response.AllRecipesResponse;
 import com.example.recipereciter.controller.response.RecipeResponse;
 import com.example.recipereciter.dto.Recipe;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,8 +14,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY;
 
 public class TestHelper {
 
@@ -77,6 +76,7 @@ public class TestHelper {
             }
         });
 
+        //noinspection unchecked
         return (T) mockObjectCache.get(filename);
     }
 }

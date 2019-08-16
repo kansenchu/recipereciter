@@ -50,10 +50,11 @@ class BasicRecipeControllerIT {
     @Test
     void shouldReturnOneRecipe() throws Exception {
         // arrange
-        when(recipeService.getRecipe(any(Integer.class))).thenReturn(mockFirstRecipe());
+        when(recipeService.getRecipe(1)).thenReturn(mockFirstRecipe());
+        String expected = mapToString(mockGetFirstRecipeResponse());
+        System.out.println(expected);
 
         // act -> assert
-        String expected = getFile("getFirstRecipeResponse");
         mockMvc.perform(get("/recipes/1"))
                 .andExpect(content().json(expected))
                 .andExpect(status().isOk());
@@ -62,7 +63,7 @@ class BasicRecipeControllerIT {
     @Test
     void addNewRecipe() throws Exception {
         // arrange
-        when(recipeService.addRecipe(any(Recipe.class))).thenReturn(mockNewRecipe());
+        when(recipeService.addRecipe(mockNewRecipe())).thenReturn(mockNewRecipe());
         String payload = mapToString(mockNewRecipe());
 
         // act -> assert

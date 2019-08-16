@@ -4,6 +4,7 @@ import com.example.recipereciter.controller.response.AllRecipesResponse;
 import com.example.recipereciter.controller.response.RecipeResponse;
 import com.example.recipereciter.dto.Recipe;
 import com.example.recipereciter.service.RecipeService;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
  * 最低限のRESTのレシピのコントローラーを表現する。
  */
 @RestController
+@RequestMapping("/recipes")
 @RequiredArgsConstructor
 public class BasicRecipeController implements RecipeController {
 
@@ -24,7 +26,7 @@ public class BasicRecipeController implements RecipeController {
      * {@inheritDoc}
      */
     @Override
-    @GetMapping("/recipes")
+    @GetMapping
     public AllRecipesResponse getAllRecipes() {
         return new AllRecipesResponse(recipeService.getAllRecipes());
     }
@@ -33,7 +35,8 @@ public class BasicRecipeController implements RecipeController {
      * {@inheritDoc}
      */
     @Override
-    @GetMapping("/recipes/{id}")
+    @GetMapping(value = "/{id}")
+    @JsonView(RecipeResponse.Views.WithoutRecipeId.class)
     public RecipeResponse getRecipe(@PathVariable int id) {
         return new RecipeResponse(RecipeResponse.Message.READ, recipeService.getRecipe(id));
     }
@@ -42,7 +45,8 @@ public class BasicRecipeController implements RecipeController {
      * @{inheritDoc}
      */
     @Override
-    @PostMapping("/recipes")
+    @PostMapping
+    @JsonView(RecipeResponse.Views.WithRecipeId.class)
     public RecipeResponse addRecipe(@RequestBody Recipe newRecipe) {
         return new RecipeResponse(RecipeResponse.Message.CREATED, recipeService.addRecipe(newRecipe));
     }

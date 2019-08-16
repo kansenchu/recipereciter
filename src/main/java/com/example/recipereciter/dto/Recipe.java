@@ -2,6 +2,7 @@ package com.example.recipereciter.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -18,11 +19,25 @@ import lombok.*;
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonView(RecipeViews.WithoutId.class)
+@JsonView(Recipe.Views.WithoutId.class)
 public class Recipe {
 
+    /**
+     * レシピとして表示可能の方式を表すクラス。
+     * 実際に何が表示するかの判定は、まずクラス単位で定義した@JsonViewアノテーションが標準で、
+     * クラス内のフィールドでオーバライドする。
+     * @see JsonView
+     */
+    public static class Views {
+        /** id だけ抜いているパターン */
+        public interface WithoutId {}
+        /** 全部のフィールドが入っているパターン */
+        public interface WithId extends Views.WithoutId {}
+    }
+
     /** レシピの識別する番号 */
-    @JsonView(RecipeViews.WithId.class)
+    @JsonView(Recipe.Views.WithId.class)
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     int id;
 
     /** レシピの名前 */
