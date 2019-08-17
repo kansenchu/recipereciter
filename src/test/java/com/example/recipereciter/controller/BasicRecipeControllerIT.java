@@ -3,17 +3,17 @@ package com.example.recipereciter.controller;
 import com.example.recipereciter.dto.Recipe;
 import com.example.recipereciter.exception.NoRecipeFoundException;
 import com.example.recipereciter.service.RecipeService;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
 
 import static com.example.recipereciter.TestHelper.*;
 import static com.example.recipereciter.TestHelper.mockFirstRecipe;
@@ -61,7 +61,19 @@ class BasicRecipeControllerIT {
     }
 
     @Test
-    void addNewRecipe() throws Exception {
+    void shouldIndicateNonexistentRecipeOnGet() throws Exception {
+        // arrange
+        when(recipeService.getRecipe(any(Integer.class))).thenThrow(NoRecipeFoundException.class);
+        String expected = getFile("noRecipeFoundResponse");
+
+        // act -> assert
+        mockMvc.perform(get("/recipes/999"))
+                .andExpect(content().json(expected))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldAddNewRecipe() throws Exception {
         // arrange
         when(recipeService.addRecipe(mockNewRecipe())).thenReturn(mockNewRecipe());
         String payload = mapToString(mockNewRecipe());
@@ -75,7 +87,7 @@ class BasicRecipeControllerIT {
     }
 
     @Test
-    void editRecipe() throws Exception {
+    void shouldEditRecipe() throws Exception {
         // arrange
         when(recipeService.editRecipe(1, mockNewRecipe())).thenReturn(mockEditedRecipe());
         String expected = getFile("editFirstRecipeResponse");
@@ -89,7 +101,21 @@ class BasicRecipeControllerIT {
     }
 
     @Test
-    void deleteRecipe() throws Exception {
+    void shouldIndicateNonexistentRecipeOnEdit() throws Exception {
+        // arrange
+        when(recipeService.editRecipe(any(Integer.class), any(Recipe.class))).thenThrow(NoRecipeFoundException.class);
+        String expected = getFile("noRecipeFoundResponse");
+
+        // act -> assert
+        String payload = mapToString(mockNewRecipe());
+        mockMvc.perform(patch("/recipes/999")
+                .contentType(MediaType.APPLICATION_JSON_UTF8).content(payload))
+                .andExpect(content().json(expected))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldDeleteRecipe() throws Exception {
         // arrange
         when(recipeService.deleteRecipe(1)).thenReturn(mockRecipe("firstRecipe"));
         String expected = getFile("deletedResponse");
@@ -101,7 +127,7 @@ class BasicRecipeControllerIT {
     }
 
     @Test
-    void deleteNonexistentRecipe() throws Exception {
+    void shouldIndicateNonexistentRecipeOnDeletion() throws Exception {
         // arrange
         when(recipeService.deleteRecipe(any(Integer.class))).thenThrow(NoRecipeFoundException.class);
         String expected = getFile("noRecipeFoundResponse");
@@ -111,5 +137,4 @@ class BasicRecipeControllerIT {
                 .andExpect(content().json(expected))
                 .andExpect(status().isOk());
     }
-
 }

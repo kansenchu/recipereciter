@@ -80,7 +80,7 @@ public class BasicRecipeController implements RecipeController {
     @DeleteMapping("/{id}")
     public MessageResponse deleteRecipe(@PathVariable int id) {
         Recipe deletedRecipe = recipeService.deleteRecipe(id);
-        if (deletedRecipe.getId() != id) throw new RuntimeException("invalid recipe deleted");
+        if (deletedRecipe.getId() != id) throw new NoRecipeFoundException();
         return new MessageResponse(Message.DELETED);
     }
 
