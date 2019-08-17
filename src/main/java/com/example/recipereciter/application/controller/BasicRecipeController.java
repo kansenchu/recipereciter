@@ -1,16 +1,16 @@
 package com.example.recipereciter.application.controller;
 
-import com.example.recipereciter.application.dto.response.AllRecipesResponse;
-import com.example.recipereciter.application.dto.response.Message;
-import com.example.recipereciter.application.dto.response.MessageResponse;
-import com.example.recipereciter.application.dto.response.RecipeResponse;
+import com.example.recipereciter.application.dto.response.*;
 import com.example.recipereciter.application.dto.Recipe;
+import com.example.recipereciter.application.exception.InvalidRecipeException;
 import com.example.recipereciter.application.exception.NoRecipeFoundException;
 import com.example.recipereciter.business.service.RecipeService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 /**
  * 最低限のRESTのレシピのコントローラーを表現する。
@@ -52,6 +52,26 @@ public class BasicRecipeController implements RecipeController {
     @PostMapping
     @JsonView(RecipeResponse.Views.WithRecipeId.class)
     public RecipeResponse addRecipe(@RequestBody Recipe newRecipe) {
+        ArrayList<String> missingFields = new ArrayList<>();
+        if (newRecipe.getTitle() == null) {
+            missingFields.add("title");
+        }
+        if (newRecipe.getMakingTime() == null) {
+            missingFields.add("making_time");
+        }
+        if (newRecipe.getServes() == null) {
+            missingFields.add("serves");
+        }
+        if (newRecipe.getIngredients() == null) {
+            missingFields.add("ingredients");
+        }
+        if (newRecipe.getCost() == null) {
+            missingFields.add("cost");
+        }
+        if (!missingFields.isEmpty()) {
+            throw new InvalidRecipeException(missingFields);
+        }
+
         return new RecipeResponse(Message.CREATED, recipeService.addRecipe(newRecipe));
     }
 
@@ -88,5 +108,11 @@ public class BasicRecipeController implements RecipeController {
     @ResponseStatus(HttpStatus.OK)
     public MessageResponse noRecipeFoundHandler() {
         return new MessageResponse(Message.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidRecipeException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public InvalidRecipeResponse invalidRecipeHandler(InvalidRecipeException e){
+        return new InvalidRecipeResponse(e);
     }
 }
