@@ -1,10 +1,9 @@
 package com.example.recipereciter;
 
-import com.example.recipereciter.controller.response.AllRecipesResponse;
-import com.example.recipereciter.controller.response.MessageResponse;
-import com.example.recipereciter.controller.response.RecipeResponse;
-import com.example.recipereciter.dto.Recipe;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.example.recipereciter.application.dto.response.AllRecipesResponse;
+import com.example.recipereciter.application.dto.response.MessageResponse;
+import com.example.recipereciter.application.dto.response.RecipeResponse;
+import com.example.recipereciter.application.dto.Recipe;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,10 +1,10 @@
-package com.example.recipereciter.controller;
+package com.example.recipereciter.application.controller;
 
-import com.example.recipereciter.controller.response.AllRecipesResponse;
-import com.example.recipereciter.controller.response.Message;
-import com.example.recipereciter.controller.response.MessageResponse;
-import com.example.recipereciter.controller.response.RecipeResponse;
-import com.example.recipereciter.dto.Recipe;
+import com.example.recipereciter.application.dto.response.AllRecipesResponse;
+import com.example.recipereciter.application.dto.response.Message;
+import com.example.recipereciter.application.dto.response.MessageResponse;
+import com.example.recipereciter.application.dto.response.RecipeResponse;
+import com.example.recipereciter.application.dto.Recipe;
 import com.example.recipereciter.service.RecipeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

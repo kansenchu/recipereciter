@@ -1,4 +1,4 @@
-package com.example.recipereciter.controller.response;
+package com.example.recipereciter.application.dto.response;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

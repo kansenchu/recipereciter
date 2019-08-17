@@ -1,8 +1,8 @@
-package com.example.recipereciter.controller.response;
+package com.example.recipereciter.application.dto.response;
 
 import java.util.List;
 
-import com.example.recipereciter.dto.Recipe;
+import com.example.recipereciter.application.dto.Recipe;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 

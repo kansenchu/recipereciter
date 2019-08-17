@@ -1,7 +1,7 @@
 package com.example.recipereciter.service;
 
-import com.example.recipereciter.dto.Recipe;
-import com.example.recipereciter.exception.NoRecipeFoundException;
+import com.example.recipereciter.application.dto.Recipe;
+import com.example.recipereciter.service.exception.NoRecipeFoundException;
 
 import java.util.List;
 
