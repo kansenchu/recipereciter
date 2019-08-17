@@ -1,4 +1,4 @@
-package com.example.recipereciter.service.exception;
+package com.example.recipereciter.application.exception;
 
 public class NoRecipeFoundException extends RuntimeException {
 }

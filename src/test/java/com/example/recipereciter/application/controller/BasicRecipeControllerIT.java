@@ -1,8 +1,8 @@
 package com.example.recipereciter.application.controller;
 
 import com.example.recipereciter.application.dto.Recipe;
-import com.example.recipereciter.service.exception.NoRecipeFoundException;
-import com.example.recipereciter.service.RecipeService;
+import com.example.recipereciter.application.exception.NoRecipeFoundException;
+import com.example.recipereciter.business.service.RecipeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

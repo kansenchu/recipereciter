@@ -1,4 +1,4 @@
-package com.example.recipereciter.service;
+package com.example.recipereciter.business.service;
 
 import com.example.recipereciter.application.dto.Recipe;
 import org.springframework.stereotype.Service;
@@ -7,6 +7,9 @@ import java.util.List;
 
 @Service
 public class BasicRecipeService implements RecipeService {
+
+
+
     @Override
     public List<Recipe> getAllRecipes() {
         return null;

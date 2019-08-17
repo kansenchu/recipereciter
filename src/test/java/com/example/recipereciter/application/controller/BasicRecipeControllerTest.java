@@ -5,7 +5,7 @@ import com.example.recipereciter.application.dto.response.Message;
 import com.example.recipereciter.application.dto.response.MessageResponse;
 import com.example.recipereciter.application.dto.response.RecipeResponse;
 import com.example.recipereciter.application.dto.Recipe;
-import com.example.recipereciter.service.RecipeService;
+import com.example.recipereciter.business.service.RecipeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
