@@ -37,7 +37,7 @@ public class BasicRecipeController implements RecipeController {
      * {@inheritDoc}
      */
     @Override
-    @GetMapping(value = "/{id}")
+    @GetMapping("/{id}")
     @JsonView(RecipeResponse.Views.WithoutRecipeId.class)
     public RecipeResponse getRecipe(@PathVariable int id) {
         return new RecipeResponse(Message.READ, recipeService.getRecipe(id));
@@ -75,7 +75,8 @@ public class BasicRecipeController implements RecipeController {
      * @return 削除成功レスポンス
      */
     @Override
-    public MessageResponse deleteRecipe(int id) {
+    @DeleteMapping("/{id}")
+    public MessageResponse deleteRecipe(@PathVariable int id) {
         Recipe deletedRecipe = recipeService.deleteRecipe(id);
         if (deletedRecipe.getId() != id) throw new RuntimeException("invalid recipe deleted");
         return new MessageResponse(Message.DELETED);
