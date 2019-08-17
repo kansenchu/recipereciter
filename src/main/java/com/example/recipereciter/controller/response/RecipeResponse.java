@@ -36,7 +36,8 @@ public class RecipeResponse {
      */
     public enum Message {
         READ("Recipe details by id"),
-        CREATED("Recipe successfully created!");
+        CREATED("Recipe successfully created!"),
+        EDITED("Recipe successfully updated!");
 
         private String message;
 

@@ -18,8 +18,7 @@ import static com.example.recipereciter.TestHelper.*;
 import static com.example.recipereciter.TestHelper.mockFirstRecipe;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -65,10 +64,24 @@ class BasicRecipeControllerIT {
         // arrange
         when(recipeService.addRecipe(mockNewRecipe())).thenReturn(mockNewRecipe());
         String payload = mapToString(mockNewRecipe());
+        String expected = getFile("addNewRecipeResponse");
 
         // act -> assert
-        String expected = getFile("addNewRecipeResponse");
         mockMvc.perform(post("/recipes")
+                .contentType(MediaType.APPLICATION_JSON_UTF8).content(payload))
+                .andExpect(content().json(expected))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void editRecipe() throws Exception {
+        // arrange
+        when(recipeService.editRecipe(1, mockNewRecipe())).thenReturn(mockEditedRecipe());
+        String expected = getFile("editFirstRecipeResponse");
+
+        // act -> assert
+        String payload = mapToString(mockNewRecipe());
+        mockMvc.perform(patch("/recipes/1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8).content(payload))
                 .andExpect(content().json(expected))
                 .andExpect(status().isOk());

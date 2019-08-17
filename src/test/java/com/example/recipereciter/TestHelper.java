@@ -50,12 +50,21 @@ public class TestHelper {
                 objectMapper.getTypeFactory().constructType(RecipeResponse.class));
     }
 
+    public static RecipeResponse mockEditFirstRecipeResponse() {
+        return retrieveFromCache("editFirstRecipeResponse",
+                objectMapper.getTypeFactory().constructType(RecipeResponse.class));
+    }
+
     public static Recipe mockFirstRecipe() {
         return retrieveFromCache("firstRecipe", objectMapper.getTypeFactory().constructType(Recipe.class));
     }
 
     public static Recipe mockNewRecipe() {
         return retrieveFromCache("newRecipe", objectMapper.getTypeFactory().constructType(Recipe.class));
+    }
+
+    public static Recipe mockEditedRecipe() {
+        return retrieveFromCache("editedRecipe", objectMapper.getTypeFactory().constructType(Recipe.class));
     }
 
     private static String getOutputFile(String filename) throws IOException {

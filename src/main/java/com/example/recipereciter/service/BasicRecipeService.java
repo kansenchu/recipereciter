@@ -21,4 +21,9 @@ public class BasicRecipeService implements RecipeService {
     public Recipe addRecipe(Recipe newRecipe) {
         return null;
     }
+
+    @Override
+    public Recipe editRecipe(int id, Recipe newRecipe) {
+        return null;
+    }
 }

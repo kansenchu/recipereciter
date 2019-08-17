@@ -17,6 +17,7 @@ public interface RecipeController {
 
     /**
      * 一個のレシピを取得する。
+     *
      * @param id 取得したいレシピの識別番号
      * @return リクエストしたレシピ
      */
@@ -24,8 +25,18 @@ public interface RecipeController {
 
     /**
      * レシピを追加するメソッド。
+     *
      * @param newRecipe 追加したいレシピの詳細
      * @return 追加したレシピのデータ。特に、識別番号の追加
      */
     RecipeResponse addRecipe(Recipe newRecipe);
+
+    /**
+     * レシピを変更するメソッド。
+     * 指定していないフィルドは古いものを使うままにします。
+     * @param id 変えたいレシピのid
+     * @param newRecipe 変えたいもの詳細
+     * @return 変更したレシピ詳細
+     */
+    RecipeResponse editRecipe(int id, Recipe newRecipe);
 }

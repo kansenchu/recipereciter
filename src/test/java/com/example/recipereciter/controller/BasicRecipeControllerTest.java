@@ -63,4 +63,18 @@ class BasicRecipeControllerTest {
         // assert
         assertEquals(expected, actual);
     }
+
+    @Test
+    void editRecipe() {
+        // arrange
+        Recipe newRecipe = mockEditedRecipe();
+        when(recipeService.editRecipe(1, newRecipe)).thenReturn(mockEditedRecipe());
+        RecipeResponse expected = mockEditFirstRecipeResponse();
+
+        // act
+        RecipeResponse actual = basicRecipeController.editRecipe(1, newRecipe);
+
+        // assert
+        assertEquals(expected, actual);
+    }
 }

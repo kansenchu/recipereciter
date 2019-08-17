@@ -10,4 +10,6 @@ public interface RecipeService {
     Recipe getRecipe(int id);
 
     Recipe addRecipe(Recipe newRecipe);
+
+    Recipe editRecipe(int id, Recipe newRecipe);
 }
