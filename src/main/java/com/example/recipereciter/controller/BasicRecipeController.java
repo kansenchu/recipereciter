@@ -1,6 +1,8 @@
 package com.example.recipereciter.controller;
 
 import com.example.recipereciter.controller.response.AllRecipesResponse;
+import com.example.recipereciter.controller.response.Message;
+import com.example.recipereciter.controller.response.MessageResponse;
 import com.example.recipereciter.controller.response.RecipeResponse;
 import com.example.recipereciter.dto.Recipe;
 import com.example.recipereciter.service.RecipeService;
@@ -38,7 +40,7 @@ public class BasicRecipeController implements RecipeController {
     @GetMapping(value = "/{id}")
     @JsonView(RecipeResponse.Views.WithoutRecipeId.class)
     public RecipeResponse getRecipe(@PathVariable int id) {
-        return new RecipeResponse(RecipeResponse.Message.READ, recipeService.getRecipe(id));
+        return new RecipeResponse(Message.READ, recipeService.getRecipe(id));
     }
 
     /**
@@ -48,7 +50,7 @@ public class BasicRecipeController implements RecipeController {
     @PostMapping
     @JsonView(RecipeResponse.Views.WithRecipeId.class)
     public RecipeResponse addRecipe(@RequestBody Recipe newRecipe) {
-        return new RecipeResponse(RecipeResponse.Message.CREATED, recipeService.addRecipe(newRecipe));
+        return new RecipeResponse(Message.CREATED, recipeService.addRecipe(newRecipe));
     }
 
     /**
@@ -63,6 +65,17 @@ public class BasicRecipeController implements RecipeController {
     @PatchMapping("/{id}")
     @JsonView(RecipeResponse.Views.WithoutRecipeId.class)
     public RecipeResponse editRecipe(@PathVariable int id, @RequestBody Recipe newRecipe) {
-        return new RecipeResponse(RecipeResponse.Message.EDITED, recipeService.editRecipe(id, newRecipe));
+        return new RecipeResponse(Message.EDITED, recipeService.editRecipe(id, newRecipe));
+    }
+
+    /**
+     * レシピを削除するメソッド。
+     *
+     * @param id 削除するレシピID
+     * @return 削除成功レスポンス
+     */
+    @Override
+    public MessageResponse deleteRecipe(int id) {
+        return null;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.recipereciter.controller;
 
 import com.example.recipereciter.controller.response.AllRecipesResponse;
+import com.example.recipereciter.controller.response.Message;
+import com.example.recipereciter.controller.response.MessageResponse;
 import com.example.recipereciter.controller.response.RecipeResponse;
 import com.example.recipereciter.dto.Recipe;
 import com.example.recipereciter.service.RecipeService;
@@ -41,7 +43,7 @@ class BasicRecipeControllerTest {
     void getOneRecipe() {
         // arrange
         when(recipeService.getRecipe(any(Integer.class))).thenReturn(mockFirstRecipe());
-        RecipeResponse expected = new RecipeResponse(RecipeResponse.Message.READ, mockFirstRecipe());
+        RecipeResponse expected = new RecipeResponse(Message.READ, mockFirstRecipe());
 
         // act
         RecipeResponse actual = basicRecipeController.getRecipe(1);
@@ -73,6 +75,20 @@ class BasicRecipeControllerTest {
 
         // act
         RecipeResponse actual = basicRecipeController.editRecipe(1, newRecipe);
+
+        // assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void removeRecipe() {
+        // arrange
+        Recipe deletedRecipe = mockRecipe("deletedRecipe");
+        when(recipeService.deleteRecipe(1)).thenReturn(deletedRecipe);
+        MessageResponse expected = mockMessageResponse("deletedResponse");
+
+        //act
+        MessageResponse actual = basicRecipeController.deleteRecipe(1);
 
         // assert
         assertEquals(expected, actual);

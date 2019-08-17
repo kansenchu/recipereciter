@@ -1,6 +1,7 @@
 package com.example.recipereciter.controller;
 
 import com.example.recipereciter.controller.response.AllRecipesResponse;
+import com.example.recipereciter.controller.response.MessageResponse;
 import com.example.recipereciter.controller.response.RecipeResponse;
 import com.example.recipereciter.dto.Recipe;
 
@@ -34,9 +35,18 @@ public interface RecipeController {
     /**
      * レシピを変更するメソッド。
      * 指定していないフィルドは古いものを使うままにします。
+     *
      * @param id 変えたいレシピのid
      * @param newRecipe 変えたいもの詳細
      * @return 変更したレシピ詳細
      */
     RecipeResponse editRecipe(int id, Recipe newRecipe);
+
+    /**
+     * レシピを削除するメソッド。
+     *
+     * @param id 削除するレシピID
+     * @return 削除成功レスポンス
+     */
+    MessageResponse deleteRecipe(int id);
 }

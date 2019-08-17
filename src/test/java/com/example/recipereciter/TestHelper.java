@@ -1,6 +1,7 @@
 package com.example.recipereciter;
 
 import com.example.recipereciter.controller.response.AllRecipesResponse;
+import com.example.recipereciter.controller.response.MessageResponse;
 import com.example.recipereciter.controller.response.RecipeResponse;
 import com.example.recipereciter.dto.Recipe;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -55,6 +56,15 @@ public class TestHelper {
                 objectMapper.getTypeFactory().constructType(RecipeResponse.class));
     }
 
+    public static RecipeResponse mockRecipeResponse(String filename) {
+        return retrieveFromCache("editFirstRecipeResponse",
+                objectMapper.getTypeFactory().constructType(RecipeResponse.class));
+    }
+
+    public static MessageResponse mockMessageResponse(String filename) {
+        return retrieveFromCache(filename, objectMapper.getTypeFactory().constructType(MessageResponse.class));
+    }
+
     public static Recipe mockFirstRecipe() {
         return retrieveFromCache("firstRecipe", objectMapper.getTypeFactory().constructType(Recipe.class));
     }
@@ -65,6 +75,10 @@ public class TestHelper {
 
     public static Recipe mockEditedRecipe() {
         return retrieveFromCache("editedRecipe", objectMapper.getTypeFactory().constructType(Recipe.class));
+    }
+
+    public static Recipe mockRecipe(String filename) {
+        return retrieveFromCache(filename, objectMapper.getTypeFactory().constructType(Recipe.class));
     }
 
     private static String getOutputFile(String filename) throws IOException {
