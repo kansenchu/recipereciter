@@ -87,4 +87,16 @@ class BasicRecipeControllerIT {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void deleteRecipe() throws Exception {
+        // arrange
+        when(recipeService.deleteRecipe(1)).thenReturn(mockRecipe("firstRecipe"));
+        String expected = getFile("deletedResponse");
+
+        // act -> assert
+        mockMvc.perform(delete("/recipes/1"))
+                .andExpect(content().json(expected))
+                .andExpect(status().isOk());
+    }
+
 }
