@@ -5,6 +5,7 @@ import com.example.recipereciter.application.dto.response.Message;
 import com.example.recipereciter.application.dto.response.MessageResponse;
 import com.example.recipereciter.application.dto.response.RecipeResponse;
 import com.example.recipereciter.application.dto.Recipe;
+import com.example.recipereciter.application.exception.InvalidRecipeException;
 import com.example.recipereciter.business.service.RecipeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -64,6 +65,15 @@ class BasicRecipeControllerTest {
 
         // assert
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void addInvalidRecipe() {
+        // arrange
+        Recipe newRecipe = new Recipe(0, null, null, null, null, null);
+
+        // act + assert
+        assertThrows(InvalidRecipeException.class, () -> basicRecipeController.addRecipe(newRecipe));
     }
 
     @Test

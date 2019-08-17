@@ -85,6 +85,19 @@ class BasicRecipeControllerIT {
     }
 
     @Test
+    void shouldRejectInvalidNewRecipe() throws Exception {
+        // arrange
+        String payload = mapToString(mockRecipe("invalidRecipe"));
+        String expected = getFile("invalidRecipeResponse");
+
+        // act -> assert
+        mockMvc.perform(post("/recipes")
+            .contentType(MediaType.APPLICATION_JSON_UTF8).content(payload))
+            .andExpect(content().json(expected))
+            .andExpect(status().isOk());
+    }
+
+    @Test
     void shouldEditRecipe() throws Exception {
         // arrange
         when(recipeService.editRecipe(1, mockNewRecipe())).thenReturn(mockEditedRecipe());

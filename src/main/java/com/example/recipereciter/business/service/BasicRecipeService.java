@@ -8,8 +8,6 @@ import java.util.List;
 @Service
 public class BasicRecipeService implements RecipeService {
 
-
-
     @Override
     public List<Recipe> getAllRecipes() {
         return null;

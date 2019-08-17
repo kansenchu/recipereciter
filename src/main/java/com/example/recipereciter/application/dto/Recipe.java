@@ -8,12 +8,14 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import lombok.*;
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * REST API でやりとりする時使うレシピクラス。
  * ポイントとして、値段がStringになります。
  */
 @Value
+@AllArgsConstructor
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -39,18 +41,18 @@ public class Recipe {
     int id;
 
     /** レシピの名前 */
-    String title;
+    final String title;
 
     /** レシピの作り時間。実際JSONではmaking_timeになります*/
-    String makingTime;
+    final String makingTime;
 
     /** レシピに対応する人数 */
-    String serves;
+    final String serves;
 
     /** 材料リスト。Listではなく、String扱いとしています。 */
-    String ingredients;
+    final String ingredients;
 
     /** レシピの予測値段。intではなく, Stringです。 */
-    String cost;
+    final String cost;
 
 }
