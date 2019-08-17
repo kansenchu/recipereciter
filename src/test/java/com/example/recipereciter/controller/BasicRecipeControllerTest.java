@@ -83,7 +83,7 @@ class BasicRecipeControllerTest {
     @Test
     void removeRecipe() {
         // arrange
-        Recipe deletedRecipe = mockRecipe("deletedRecipe");
+        Recipe deletedRecipe = mockRecipe("firstRecipe");
         when(recipeService.deleteRecipe(1)).thenReturn(deletedRecipe);
         MessageResponse expected = mockMessageResponse("deletedResponse");
 

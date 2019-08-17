@@ -76,6 +76,8 @@ public class BasicRecipeController implements RecipeController {
      */
     @Override
     public MessageResponse deleteRecipe(int id) {
-        return null;
+        Recipe deletedRecipe = recipeService.deleteRecipe(id);
+        if (deletedRecipe.getId() != id) throw new RuntimeException("invalid recipe deleted");
+        return new MessageResponse(Message.DELETED);
     }
 }
