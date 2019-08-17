@@ -5,9 +5,11 @@ import com.example.recipereciter.controller.response.Message;
 import com.example.recipereciter.controller.response.MessageResponse;
 import com.example.recipereciter.controller.response.RecipeResponse;
 import com.example.recipereciter.dto.Recipe;
+import com.example.recipereciter.exception.NoRecipeFoundException;
 import com.example.recipereciter.service.RecipeService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -80,5 +82,11 @@ public class BasicRecipeController implements RecipeController {
         Recipe deletedRecipe = recipeService.deleteRecipe(id);
         if (deletedRecipe.getId() != id) throw new RuntimeException("invalid recipe deleted");
         return new MessageResponse(Message.DELETED);
+    }
+
+    @ExceptionHandler(NoRecipeFoundException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public MessageResponse noRecipeFoundHandler() {
+        return new MessageResponse(Message.NOT_FOUND);
     }
 }

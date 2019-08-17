@@ -9,7 +9,8 @@ public enum Message {
     READ("Recipe details by id"),
     CREATED("Recipe successfully created!"),
     EDITED("Recipe successfully updated!"),
-    DELETED("Recipe successfully removed!");
+    DELETED("Recipe successfully removed!"),
+    NOT_FOUND("No Recipe found");
 
     private String message;
 
