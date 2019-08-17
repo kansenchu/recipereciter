@@ -1,6 +1,7 @@
 package com.example.recipereciter.controller;
 
 import com.example.recipereciter.dto.Recipe;
+import com.example.recipereciter.exception.NoRecipeFoundException;
 import com.example.recipereciter.service.RecipeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -95,6 +96,18 @@ class BasicRecipeControllerIT {
 
         // act -> assert
         mockMvc.perform(delete("/recipes/1"))
+                .andExpect(content().json(expected))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteNonexistentRecipe() throws Exception {
+        // arrange
+        when(recipeService.deleteRecipe(any(Integer.class))).thenThrow(NoRecipeFoundException.class);
+        String expected = getFile("noRecipeFoundResponse");
+
+        // act -> assert
+        mockMvc.perform(delete("/recipes/999"))
                 .andExpect(content().json(expected))
                 .andExpect(status().isOk());
     }
