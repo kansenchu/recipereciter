@@ -25,7 +25,7 @@ class BasicRecipeServiceTest {
     BasicRecipeService basicRecipeService;
 
     @Test
-    void shouldGetAllRecipes() throws Exception {
+    void shouldFetchAllRecipes() throws Exception {
         // arrange
         when(recipeRepo.getAllRecipes()).thenReturn(mockRecipeDaoList());
         List<Recipe> expected = mockRecipeList();
@@ -38,13 +38,43 @@ class BasicRecipeServiceTest {
     }
 
     @Test
-    void shouldGetOneRecipe() {
+    void shouldFetchOneRecipe() {
         // arrange
         when(recipeRepo.getRecipe(1)).thenReturn(mockRecipeDao("firstRecipe"));
         Recipe expected = mockRecipe("firstRecipe");
 
         // act
         Recipe actual = basicRecipeService.getRecipe(1);
+
+        // assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldSendNewRecipe() {
+        // arrange
+        RecipeDao newRecipeDao = mockRecipeDao("newRecipe");
+
+        Recipe newRecipe = new Recipe(newRecipeDao.getTitle(),
+            newRecipeDao.getMakingTime(),
+            newRecipeDao.getServes(),
+            newRecipeDao.getIngredients(),
+            newRecipeDao.getCost());
+
+        RecipeDao recipeDaoToAdd = RecipeDao.builder()
+            .title(newRecipeDao.getTitle())
+            .ingredients(newRecipeDao.getIngredients())
+            .cost(newRecipeDao.getCost())
+            .makingTime(newRecipeDao.getMakingTime())
+            .serves(newRecipeDao.getServes())
+            .build();
+
+        Recipe expected = mockRecipe("newRecipe");
+
+        when(recipeRepo.addRecipe(recipeDaoToAdd)).thenReturn(newRecipeDao);
+
+        // act
+        Recipe actual = basicRecipeService.addRecipe(newRecipe);
 
         // assert
         assertEquals(expected, actual);

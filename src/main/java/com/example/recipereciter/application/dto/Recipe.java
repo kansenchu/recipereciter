@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import lombok.*;
-import org.springframework.beans.factory.annotation.Required;
+import lombok.experimental.NonFinal;
 
 /**
  * REST API でやりとりする時使うレシピクラス。
@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Required;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonView(Recipe.Views.WithoutId.class)
+@RequiredArgsConstructor
 public class Recipe {
 
     /**
@@ -38,6 +39,7 @@ public class Recipe {
     /** レシピの識別する番号 */
     @JsonView(Recipe.Views.WithId.class)
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @NonFinal
     int id;
 
     /** レシピの名前 */

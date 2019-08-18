@@ -1,5 +1,6 @@
 package com.example.recipereciter.domain.repository;
 
+import com.example.recipereciter.application.dto.Recipe;
 import com.example.recipereciter.business.dao.RecipeDao;
 
 import java.util.List;
@@ -10,6 +11,10 @@ public class RecipeRepository {
   }
 
   public RecipeDao getRecipe(int id) {
+    return null;
+  }
+
+  public RecipeDao addRecipe(RecipeDao newRecipe) {
     return null;
   }
 }
