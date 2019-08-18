@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Clock;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BasicRecipeService implements RecipeService {
 
+    private Clock clock;
     private RecipeJpaRepository recipeJpaRepository;
     private RecipeRepository recipeRepository;
 
@@ -49,7 +53,19 @@ public class BasicRecipeService implements RecipeService {
 
     @Override
     public Recipe editRecipe(int id, Recipe newRecipe) {
-        return daoToRecipe(recipeRepository.updateRecipe(id, recipeToDao(newRecipe)));
+        RecipeDao oldRecipe = recipeJpaRepository.getOne(id);
+        RecipeDao editedRecipe = RecipeDao.builder()
+                .id(id)
+                .title(newRecipe.getTitle() != null ? newRecipe.getTitle() : oldRecipe.getTitle())
+                .makingTime(newRecipe.getMakingTime() != null ? newRecipe.getMakingTime() : oldRecipe.getMakingTime())
+                .serves(newRecipe.getServes() != null ? newRecipe.getServes() : oldRecipe.getServes())
+                .ingredients(newRecipe.getIngredients() != null ? newRecipe.getIngredients() : oldRecipe.getIngredients())
+                .cost(newRecipe.getCost() != null ? newRecipe.getCost() : oldRecipe.getCost())
+                .createdAt(oldRecipe.getCreatedAt())
+                .updatedAt(Timestamp.from(Instant.now(clock)))
+                .build();
+
+        return daoToRecipe(recipeJpaRepository.save(editedRecipe));
     }
 
     @Override

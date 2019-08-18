@@ -8,9 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 
+import java.sql.Timestamp;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 
 import static com.example.recipereciter.TestHelper.*;
@@ -19,6 +24,9 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class BasicRecipeServiceTest {
+
+    @Mock
+    Clock clock;
 
     @Mock
     RecipeRepository recipeRepo;
@@ -90,6 +98,8 @@ class BasicRecipeServiceTest {
         // arrange
         int idToEdit = 1;
         RecipeDao newRecipeDao = mockRecipeDao("newRecipe");
+        RecipeDao oldRecipeDao = mockRecipeDao("firstRecipe");
+        when(clock.instant()).thenReturn(Instant.now());
 
         Recipe editedRecipe = new Recipe(newRecipeDao.getTitle(),
             newRecipeDao.getMakingTime(),
@@ -97,15 +107,18 @@ class BasicRecipeServiceTest {
             newRecipeDao.getIngredients(),
             newRecipeDao.getCost());
 
-        RecipeDao.RecipeDaoBuilder builder = RecipeDao.builder()
+        RecipeDao targetDao = RecipeDao.builder()
+            .id(idToEdit)
             .title(newRecipeDao.getTitle())
             .makingTime(newRecipeDao.getMakingTime())
             .serves(newRecipeDao.getServes())
             .ingredients(newRecipeDao.getIngredients())
-            .cost(newRecipeDao.getCost());
+            .cost(newRecipeDao.getCost())
+            .createdAt(oldRecipeDao.getCreatedAt())
+            .updatedAt(Timestamp.from(Instant.now(clock)))
+            .build();
 
-        RecipeDao targetDao = builder.id(idToEdit).build();
-
+        when(recipeJpaRepository.getOne(idToEdit)).thenReturn(oldRecipeDao);
         when(recipeJpaRepository.save(targetDao)).thenReturn(targetDao);
         Recipe expected = new Recipe(idToEdit,
             newRecipeDao.getTitle(),
