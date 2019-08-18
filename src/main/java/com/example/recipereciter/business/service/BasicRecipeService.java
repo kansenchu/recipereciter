@@ -39,7 +39,7 @@ public class BasicRecipeService implements RecipeService {
      */
     @Override
     public Recipe getRecipe(int id) {
-        return daoToRecipe(recipeRepository.getRecipe(id));
+        return daoToRecipe(recipeJpaRepository.getOne(id));
     }
 
     @Override
