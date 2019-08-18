@@ -44,7 +44,7 @@ public class BasicRecipeService implements RecipeService {
 
     @Override
     public Recipe addRecipe(Recipe newRecipe) {
-        return daoToRecipe(recipeRepository.addRecipe(recipeToDao(newRecipe)));
+        return daoToRecipe(recipeJpaRepository.save(recipeToDao(newRecipe)));
     }
 
     @Override
