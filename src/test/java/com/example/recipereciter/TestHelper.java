@@ -4,6 +4,7 @@ import com.example.recipereciter.application.dto.response.AllRecipesResponse;
 import com.example.recipereciter.application.dto.response.MessageResponse;
 import com.example.recipereciter.application.dto.response.RecipeResponse;
 import com.example.recipereciter.application.dto.Recipe;
+import com.example.recipereciter.business.dao.RecipeDao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +33,12 @@ public class TestHelper {
     public static List<Recipe> mockRecipeList() {
         return retrieveFromCache("allRecipes",
                 objectMapper.getTypeFactory().constructCollectionType(List.class, Recipe.class));
+
+    }
+
+    public static List<RecipeDao> mockRecipeDaoList() {
+        return retrieveFromCache("allRecipes",
+            objectMapper.getTypeFactory().constructCollectionType(List.class, RecipeDao.class));
 
     }
 
@@ -78,6 +85,10 @@ public class TestHelper {
 
     public static Recipe mockRecipe(String filename) {
         return retrieveFromCache(filename, objectMapper.getTypeFactory().constructType(Recipe.class));
+    }
+
+    public static RecipeDao mockRecipeDao(String filename) {
+        return retrieveFromCache(filename, objectMapper.getTypeFactory().constructType(RecipeDao.class));
     }
 
     private static String getOutputFile(String filename) throws IOException {
