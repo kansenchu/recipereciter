@@ -46,7 +46,7 @@ public class BasicRecipeService implements RecipeService {
 
     @Override
     public Recipe editRecipe(int id, Recipe newRecipe) {
-        return null;
+        return daoToRecipe(recipeRepository.updateRecipe(id, recipeToDao(newRecipe)));
     }
 
     @Override
