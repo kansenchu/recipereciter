@@ -20,6 +20,7 @@ import java.util.List;
 
 import static com.example.recipereciter.TestHelper.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -138,7 +139,8 @@ class BasicRecipeServiceTest {
     void shouldDeleteRecipe() {
         // arrange
         int idToDelete = 1;
-        when(recipeRepo.deleteRecipe(idToDelete)).thenReturn(mockRecipeDao("firstRecipe"));
+        when(recipeJpaRepository.getOne(1)).thenReturn(mockRecipeDao("firstRecipe"));
+        verify(recipeJpaRepository).delete(mockRecipeDao("firstRecipe"));
         Recipe expected = mockRecipe("firstRecipe");
 
         // act
