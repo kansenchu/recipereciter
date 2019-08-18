@@ -19,6 +19,9 @@ public class BasicRecipeService implements RecipeService {
 
     private RecipeRepository recipeRepository;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Recipe> getAllRecipes() {
         List<Recipe> list = new ArrayList<>();
@@ -29,9 +32,12 @@ public class BasicRecipeService implements RecipeService {
         return list;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Recipe getRecipe(int id) {
-        return null;
+        return daoToRecipe(recipeRepository.getRecipe(id));
     }
 
     @Override

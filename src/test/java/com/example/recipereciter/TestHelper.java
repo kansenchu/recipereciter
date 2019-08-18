@@ -44,10 +44,9 @@ public class TestHelper {
 
     }
 
-    public static List<RecipeDao> mockRecipeDaoList() throws Exception {
-        return objectMapper.readValue(getFile("allRecipes"),
+    public static List<RecipeDao> mockRecipeDaoList() {
+        return retrieveFromCache("allRecipes", "allRecipesDao",
             objectMapper.getTypeFactory().constructCollectionType(List.class, RecipeDao.class));
-
     }
 
     public static AllRecipesResponse mockAllRecipesResponse() {
@@ -118,7 +117,7 @@ public class TestHelper {
         });
 
         //noinspection unchecked
-        return (T) mockObjectCache.get(filename);
+        return (T) mockObjectCache.get(keyToInsert);
     }
 
     private static <T> T retrieveFromCache(String filename, JavaType type) {
