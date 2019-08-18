@@ -8,6 +8,8 @@ import com.example.recipereciter.business.dao.RecipeDao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import jdk.internal.org.objectweb.asm.TypeReference;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,6 +21,12 @@ import java.util.Map;
 public class TestHelper {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
+
+    static {
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(RecipeDao.class, new RecipeDaoDeserializer());
+        objectMapper.registerModule(module);
+    }
 
     private static Map<String, Object> mockObjectCache = new HashMap<>(30);
 
@@ -36,8 +44,8 @@ public class TestHelper {
 
     }
 
-    public static List<RecipeDao> mockRecipeDaoList() {
-        return retrieveFromCache("allRecipes",
+    public static List<RecipeDao> mockRecipeDaoList() throws Exception {
+        return objectMapper.readValue(getFile("allRecipes"),
             objectMapper.getTypeFactory().constructCollectionType(List.class, RecipeDao.class));
 
     }
@@ -99,8 +107,8 @@ public class TestHelper {
         return new String(Files.readAllBytes(Paths.get("src/test/resources/inputs/").resolve(filename + ".json")));
     }
 
-    private static <T> T retrieveFromCache(String filename, JavaType type) {
-        mockObjectCache.computeIfAbsent(filename, (key) -> {
+    private static <T> T retrieveFromCache(String filename, String keyToInsert, JavaType type) {
+        mockObjectCache.computeIfAbsent(keyToInsert, (key) -> {
             try {
                 return objectMapper.readValue(getFile(filename), type);
             } catch (IOException e) {
@@ -111,5 +119,9 @@ public class TestHelper {
 
         //noinspection unchecked
         return (T) mockObjectCache.get(filename);
+    }
+
+    private static <T> T retrieveFromCache(String filename, JavaType type) {
+        return retrieveFromCache(filename, filename, type);
     }
 }

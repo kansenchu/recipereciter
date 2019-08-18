@@ -26,7 +26,7 @@ class BasicRecipeServiceTest {
     BasicRecipeService basicRecipeService;
 
     @Test
-    void shouldGetAllRecipes() {
+    void shouldGetAllRecipes() throws Exception {
         // arrange
         when(recipeRepo.getAllRecipes()).thenReturn(mockRecipeDaoList());
 
