@@ -79,4 +79,18 @@ class BasicRecipeServiceTest {
         // assert
         assertEquals(expected, actual);
     }
+
+    @Test
+    void shouldDeleteRecipe() {
+        // arrange
+        int idToDelete = 1;
+        when(recipeRepo.deleteRecipe(idToDelete)).thenReturn(mockRecipeDao("firstRecipe"));
+        Recipe expected = mockRecipe("firstRecipe");
+
+        // act
+        Recipe actual = basicRecipeService.deleteRecipe(idToDelete);
+
+        // assert
+        assertEquals(expected, actual);
+    }
 }

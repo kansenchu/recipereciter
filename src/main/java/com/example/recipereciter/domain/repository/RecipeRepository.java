@@ -17,4 +17,8 @@ public class RecipeRepository {
   public RecipeDao addRecipe(RecipeDao newRecipe) {
     return null;
   }
+
+  public RecipeDao deleteRecipe(int idToDelete) {
+    return null;
+  }
 }
