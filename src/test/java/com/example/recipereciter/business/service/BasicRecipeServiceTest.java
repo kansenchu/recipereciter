@@ -2,6 +2,7 @@ package com.example.recipereciter.business.service;
 
 import com.example.recipereciter.application.dto.Recipe;
 import com.example.recipereciter.business.dao.RecipeDao;
+import com.example.recipereciter.domain.repository.RecipeJpaRepository;
 import com.example.recipereciter.domain.repository.RecipeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,13 +22,16 @@ class BasicRecipeServiceTest {
     @Mock
     RecipeRepository recipeRepo;
 
+    @Mock
+    RecipeJpaRepository recipeJpaRepository;
+
     @InjectMocks
     BasicRecipeService basicRecipeService;
 
     @Test
     void shouldFetchAllRecipes() throws Exception {
         // arrange
-        when(recipeRepo.getAllRecipes()).thenReturn(mockRecipeDaoList());
+        when(recipeJpaRepository.findAll()).thenReturn(mockRecipeDaoList());
         List<Recipe> expected = mockRecipeList();
 
         // act

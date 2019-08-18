@@ -2,6 +2,7 @@ package com.example.recipereciter.business.service;
 
 import com.example.recipereciter.application.dto.Recipe;
 import com.example.recipereciter.business.dao.RecipeDao;
+import com.example.recipereciter.domain.repository.RecipeJpaRepository;
 import com.example.recipereciter.domain.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BasicRecipeService implements RecipeService {
 
+    private RecipeJpaRepository recipeJpaRepository;
     private RecipeRepository recipeRepository;
 
     /**
