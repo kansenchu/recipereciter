@@ -96,7 +96,7 @@ public class TestHelper {
     }
 
     public static RecipeDao mockRecipeDao(String filename) {
-        return retrieveFromCache(filename, objectMapper.getTypeFactory().constructType(RecipeDao.class));
+        return retrieveFromCache(filename, filename + "Dao", objectMapper.getTypeFactory().constructType(RecipeDao.class));
     }
 
     private static String getOutputFile(String filename) throws IOException {

@@ -8,4 +8,8 @@ public class RecipeRepository {
   public List<RecipeDao> getAllRecipes() {
     return null;
   }
+
+  public RecipeDao getRecipe(int id) {
+    return null;
+  }
 }
