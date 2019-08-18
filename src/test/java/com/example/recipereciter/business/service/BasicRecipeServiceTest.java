@@ -2,20 +2,17 @@ package com.example.recipereciter.business.service;
 
 import com.example.recipereciter.application.dto.Recipe;
 import com.example.recipereciter.business.dao.RecipeDao;
-import com.example.recipereciter.domain.repository.RecipeJpaRepository;
 import com.example.recipereciter.domain.repository.RecipeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 
 import java.sql.Timestamp;
 import java.time.Clock;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.List;
 
 import static com.example.recipereciter.TestHelper.*;
@@ -30,10 +27,7 @@ class BasicRecipeServiceTest {
     Clock clock;
 
     @Mock
-    RecipeRepository recipeRepo;
-
-    @Mock
-    RecipeJpaRepository recipeJpaRepository;
+    RecipeRepository recipeRepository;
 
     @InjectMocks
     BasicRecipeService basicRecipeService;
@@ -41,7 +35,7 @@ class BasicRecipeServiceTest {
     @Test
     void shouldFetchAllRecipes() {
         // arrange
-        when(recipeJpaRepository.findAll(Sort.by("id").ascending())).thenReturn(mockRecipeDaoList());
+        when(recipeRepository.findAll(Sort.by("id").ascending())).thenReturn(mockRecipeDaoList());
         List<Recipe> expected = mockRecipeList();
 
         // act
@@ -54,8 +48,10 @@ class BasicRecipeServiceTest {
     @Test
     void shouldFetchOneRecipe() {
         // arrange
-        when(recipeJpaRepository.getOne(1)).thenReturn(mockRecipeDao("firstRecipe"));
+        int idToGet = 1;
+        when(recipeRepository.getOne(idToGet)).thenReturn(mockRecipeDao("firstRecipe"));
         Recipe expected = mockRecipe("firstRecipe");
+        when(recipeRepository.existsById(idToGet)).thenReturn(true);
 
         // act
         Recipe actual = basicRecipeService.getRecipe(1);
@@ -85,7 +81,7 @@ class BasicRecipeServiceTest {
 
         Recipe expected = mockRecipe("newRecipe");
 
-        when(recipeJpaRepository.save(recipeDaoToAdd)).thenReturn(newRecipeDao);
+        when(recipeRepository.save(recipeDaoToAdd)).thenReturn(newRecipeDao);
 
         // act
         Recipe actual = basicRecipeService.addRecipe(newRecipe);
@@ -101,6 +97,7 @@ class BasicRecipeServiceTest {
         RecipeDao newRecipeDao = mockRecipeDao("newRecipe");
         RecipeDao oldRecipeDao = mockRecipeDao("firstRecipe");
         when(clock.instant()).thenReturn(Instant.now());
+        when(recipeRepository.existsById(idToEdit)).thenReturn(true);
 
         Recipe editedRecipe = new Recipe(newRecipeDao.getTitle(),
             newRecipeDao.getMakingTime(),
@@ -119,8 +116,8 @@ class BasicRecipeServiceTest {
             .updatedAt(Timestamp.from(Instant.now(clock)))
             .build();
 
-        when(recipeJpaRepository.getOne(idToEdit)).thenReturn(oldRecipeDao);
-        when(recipeJpaRepository.save(targetDao)).thenReturn(targetDao);
+        when(recipeRepository.getOne(idToEdit)).thenReturn(oldRecipeDao);
+        when(recipeRepository.save(targetDao)).thenReturn(targetDao);
         Recipe expected = new Recipe(idToEdit,
             newRecipeDao.getTitle(),
             newRecipeDao.getMakingTime(),
@@ -139,8 +136,8 @@ class BasicRecipeServiceTest {
     void shouldDeleteRecipe() {
         // arrange
         int idToDelete = 1;
-        when(recipeJpaRepository.getOne(1)).thenReturn(mockRecipeDao("firstRecipe"));
-        verify(recipeJpaRepository).delete(mockRecipeDao("firstRecipe"));
+        when(recipeRepository.existsById(idToDelete)).thenReturn(true);
+        when(recipeRepository.getOne(idToDelete)).thenReturn(mockRecipeDao("firstRecipe"));
         Recipe expected = mockRecipe("firstRecipe");
 
         // act
@@ -148,5 +145,6 @@ class BasicRecipeServiceTest {
 
         // assert
         assertEquals(expected, actual);
+        verify(recipeRepository).delete(mockRecipeDao("firstRecipe"));
     }
 }

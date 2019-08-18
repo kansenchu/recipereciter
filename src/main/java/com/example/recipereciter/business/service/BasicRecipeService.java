@@ -1,8 +1,8 @@
 package com.example.recipereciter.business.service;
 
 import com.example.recipereciter.application.dto.Recipe;
+import com.example.recipereciter.application.exception.NoRecipeFoundException;
 import com.example.recipereciter.business.dao.RecipeDao;
-import com.example.recipereciter.domain.repository.RecipeJpaRepository;
 import com.example.recipereciter.domain.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -22,7 +22,6 @@ import java.util.List;
 public class BasicRecipeService implements RecipeService {
 
     private Clock clock;
-    private RecipeJpaRepository recipeJpaRepository;
     private RecipeRepository recipeRepository;
 
     /**
@@ -31,7 +30,7 @@ public class BasicRecipeService implements RecipeService {
     @Override
     public List<Recipe> getAllRecipes() {
         List<Recipe> list = new ArrayList<>();
-        for (RecipeDao recipeDao : recipeJpaRepository.findAll(Sort.by("id").ascending())) {
+        for (RecipeDao recipeDao : recipeRepository.findAll(Sort.by("id").ascending())) {
             Recipe recipe = daoToRecipe(recipeDao);
             list.add(recipe);
         }
@@ -43,17 +42,19 @@ public class BasicRecipeService implements RecipeService {
      */
     @Override
     public Recipe getRecipe(int id) {
-        return daoToRecipe(recipeJpaRepository.getOne(id));
+        if (!recipeRepository.existsById(id)) throw new NoRecipeFoundException();
+        return daoToRecipe(recipeRepository.getOne(id));
     }
 
     @Override
     public Recipe addRecipe(Recipe newRecipe) {
-        return daoToRecipe(recipeJpaRepository.save(recipeToDao(newRecipe)));
+        return daoToRecipe(recipeRepository.save(recipeToDao(newRecipe)));
     }
 
     @Override
     public Recipe editRecipe(int id, Recipe newRecipe) {
-        RecipeDao oldRecipe = recipeJpaRepository.getOne(id);
+        if (!recipeRepository.existsById(id)) throw new NoRecipeFoundException();
+        RecipeDao oldRecipe = recipeRepository.getOne(id);
         RecipeDao editedRecipe = RecipeDao.builder()
                 .id(id)
                 .title(newRecipe.getTitle() != null ? newRecipe.getTitle() : oldRecipe.getTitle())
@@ -65,12 +66,15 @@ public class BasicRecipeService implements RecipeService {
                 .updatedAt(Timestamp.from(Instant.now(clock)))
                 .build();
 
-        return daoToRecipe(recipeJpaRepository.save(editedRecipe));
+        return daoToRecipe(recipeRepository.save(editedRecipe));
     }
 
     @Override
     public Recipe deleteRecipe(int id) {
-        return daoToRecipe(recipeRepository.deleteRecipe(id));
+        if (!recipeRepository.existsById(id)) throw new NoRecipeFoundException();
+        RecipeDao toDelete = recipeRepository.getOne(id);
+        recipeRepository.delete(toDelete);
+        return daoToRecipe(toDelete);
     }
 
     private Recipe daoToRecipe(RecipeDao recipeDao) {
