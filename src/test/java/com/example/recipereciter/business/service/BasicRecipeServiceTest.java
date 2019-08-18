@@ -76,7 +76,7 @@ class BasicRecipeServiceTest {
 
         Recipe expected = mockRecipe("newRecipe");
 
-        when(recipeRepo.addRecipe(recipeDaoToAdd)).thenReturn(newRecipeDao);
+        when(recipeJpaRepository.save(recipeDaoToAdd)).thenReturn(newRecipeDao);
 
         // act
         Recipe actual = basicRecipeService.addRecipe(newRecipe);
