@@ -41,7 +41,7 @@ public class BasicRecipeService implements RecipeService {
 
     @Override
     public Recipe addRecipe(Recipe newRecipe) {
-        return null;
+        return daoToRecipe(recipeRepository.addRecipe(recipeToDao(newRecipe)));
     }
 
     @Override
@@ -62,5 +62,18 @@ public class BasicRecipeService implements RecipeService {
                         recipeDao.getIngredients(),
                         recipeDao.getCost()
         );
+    }
+
+    private RecipeDao recipeToDao(Recipe recipe) {
+        RecipeDao.RecipeDaoBuilder builder = RecipeDao.builder();
+
+        if (recipe.getId() != 0) builder.id(recipe.getId());
+        builder.title(recipe.getTitle());
+        builder.makingTime(recipe.getMakingTime());
+        builder.serves(recipe.getServes());
+        builder.ingredients(recipe.getIngredients());
+        builder.cost(recipe.getCost());
+
+        return builder.build();
     }
 }

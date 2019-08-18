@@ -63,10 +63,10 @@ class BasicRecipeServiceTest {
 
         RecipeDao recipeDaoToAdd = RecipeDao.builder()
             .title(newRecipeDao.getTitle())
-            .ingredients(newRecipeDao.getIngredients())
-            .cost(newRecipeDao.getCost())
             .makingTime(newRecipeDao.getMakingTime())
             .serves(newRecipeDao.getServes())
+            .ingredients(newRecipeDao.getIngredients())
+            .cost(newRecipeDao.getCost())
             .build();
 
         Recipe expected = mockRecipe("newRecipe");
