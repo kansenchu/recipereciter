@@ -2,27 +2,26 @@ package com.example.recipereciter.business.dao;
 
 import java.sql.Timestamp;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.OptBoolean;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.*;
+
+import javax.persistence.*;
 
 /**
  * DBとやりとりする時使うレシピクラス。
  * ポイントとして、cost (値段)がintの基準でしています。
  */
+@Entity
+@Table(name = "recipes")
+@Data
 @Builder
-@Value
 public class RecipeDao {
 
   public static class RecipeDaoBuilder {
   }
 
   /** レシピの識別番号 */
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
   /** レシピの名前。 */
