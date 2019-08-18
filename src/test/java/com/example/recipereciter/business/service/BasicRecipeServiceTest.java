@@ -104,10 +104,9 @@ class BasicRecipeServiceTest {
             .ingredients(newRecipeDao.getIngredients())
             .cost(newRecipeDao.getCost());
 
-        RecipeDao editInputDao = builder.build();
-        RecipeDao editOutputDao = builder.id(idToEdit).build();
+        RecipeDao targetDao = builder.id(idToEdit).build();
 
-        when(recipeRepo.updateRecipe(idToEdit, editInputDao)).thenReturn(editOutputDao);
+        when(recipeJpaRepository.save(targetDao)).thenReturn(targetDao);
         Recipe expected = new Recipe(idToEdit,
             newRecipeDao.getTitle(),
             newRecipeDao.getMakingTime(),
