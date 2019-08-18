@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -29,9 +30,9 @@ class BasicRecipeServiceTest {
     BasicRecipeService basicRecipeService;
 
     @Test
-    void shouldFetchAllRecipes() throws Exception {
+    void shouldFetchAllRecipes() {
         // arrange
-        when(recipeJpaRepository.findAll()).thenReturn(mockRecipeDaoList());
+        when(recipeJpaRepository.findAll(Sort.by("id").ascending())).thenReturn(mockRecipeDaoList());
         List<Recipe> expected = mockRecipeList();
 
         // act
@@ -44,7 +45,7 @@ class BasicRecipeServiceTest {
     @Test
     void shouldFetchOneRecipe() {
         // arrange
-        when(recipeRepo.getRecipe(1)).thenReturn(mockRecipeDao("firstRecipe"));
+        when(recipeJpaRepository.getOne(1)).thenReturn(mockRecipeDao("firstRecipe"));
         Recipe expected = mockRecipe("firstRecipe");
 
         // act

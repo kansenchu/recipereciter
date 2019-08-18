@@ -5,6 +5,7 @@ import com.example.recipereciter.business.dao.RecipeDao;
 import com.example.recipereciter.domain.repository.RecipeJpaRepository;
 import com.example.recipereciter.domain.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class BasicRecipeService implements RecipeService {
     @Override
     public List<Recipe> getAllRecipes() {
         List<Recipe> list = new ArrayList<>();
-        for (RecipeDao recipeDao : recipeRepository.getAllRecipes()) {
+        for (RecipeDao recipeDao : recipeJpaRepository.findAll(Sort.by("id").ascending())) {
             Recipe recipe = daoToRecipe(recipeDao);
             list.add(recipe);
         }
