@@ -81,6 +81,43 @@ class BasicRecipeServiceTest {
     }
 
     @Test
+    void shouldEditRecipe() {
+        // arrange
+        int idToEdit = 1;
+        RecipeDao newRecipeDao = mockRecipeDao("newRecipe");
+
+        Recipe editedRecipe = new Recipe(newRecipeDao.getTitle(),
+            newRecipeDao.getMakingTime(),
+            newRecipeDao.getServes(),
+            newRecipeDao.getIngredients(),
+            newRecipeDao.getCost());
+
+        RecipeDao.RecipeDaoBuilder builder = RecipeDao.builder()
+            .title(newRecipeDao.getTitle())
+            .makingTime(newRecipeDao.getMakingTime())
+            .serves(newRecipeDao.getServes())
+            .ingredients(newRecipeDao.getIngredients())
+            .cost(newRecipeDao.getCost());
+
+        RecipeDao editInputDao = builder.build();
+        RecipeDao editOutputDao = builder.id(idToEdit).build();
+
+        when(recipeRepo.updateRecipe(idToEdit, editInputDao)).thenReturn(editOutputDao);
+        Recipe expected = new Recipe(idToEdit,
+            newRecipeDao.getTitle(),
+            newRecipeDao.getMakingTime(),
+            newRecipeDao.getServes(),
+            newRecipeDao.getIngredients(),
+            newRecipeDao.getCost());
+
+        // act
+        Recipe actual = basicRecipeService.editRecipe(idToEdit, editedRecipe);
+
+        // assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void shouldDeleteRecipe() {
         // arrange
         int idToDelete = 1;

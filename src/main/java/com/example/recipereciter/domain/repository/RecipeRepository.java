@@ -21,4 +21,8 @@ public class RecipeRepository {
   public RecipeDao deleteRecipe(int idToDelete) {
     return null;
   }
+
+  public RecipeDao updateRecipe(int id, RecipeDao editedRecipe) {
+    return null;
+  }
 }

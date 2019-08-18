@@ -51,7 +51,7 @@ public class BasicRecipeService implements RecipeService {
 
     @Override
     public Recipe deleteRecipe(int id) {
-        return null;
+        return daoToRecipe(recipeRepository.deleteRecipe(id));
     }
 
     private Recipe daoToRecipe(RecipeDao recipeDao) {
